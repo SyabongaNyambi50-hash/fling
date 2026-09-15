@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You</title>
+    <!-- Google Fonts for elegant typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0d0b14;
+            color: #e6e1e5;
+            font-family: 'Cormorant Garamond', serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient glowing background elements */
+        .background-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vw;
+            height: 80vh;
+            background: radial-gradient(circle, rgba(147, 86, 115, 0.15) 0%, rgba(35, 23, 42, 0.05) 60%, rgba(0,0,0,0) 100%);
+            z-index: 0;
+            pointer-events: none;
+            filter: blur(40px);
+        }
+
+        /* Canvas for floating heart particles */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Main Card Container */
+        .card-container {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 620px;
+            margin: 40px 20px;
+            padding: 50px 40px;
+            background: rgba(22, 18, 33, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
+                        0 0 30px rgba(186, 114, 148, 0.08);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Subtle top heart accent icon */
+        .heart-icon {
+            font-size: 24px;
+            color: #d48b9f;
+            margin-bottom: 25px;
+            display: inline-block;
+            animation: pulse 2.5s infinite ease-in-out;
+            opacity: 0.85;
+        }
+
+        /* Paragraph text styles */
+        .paragraph {
+            font-size: 1.35rem;
+            line-height: 1.85;
+            color: #e6e1e5;
+            font-weight: 300;
+            margin-bottom: 30px;
+            letter-spacing: 0.3px;
+        }
+
+        .paragraph:last-of-type {
+            margin-bottom: 40px;
+        }
+
+        .paragraph span.highlight {
+            color: #f1b8c4;
+            font-style: italic;
+        }
+
+        /* Divider line */
+        .divider {
+            width: 40px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.15);
+            margin: 0 auto 35px auto;
+        }
+
+        /* Footer Credits */
+        .attribution {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Interactive Like Heart Button */
+        .like-button {
+            position: relative;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: color 0.3s ease, transform 0.2s ease;
+            outline: none;
+        }
+
+        .like-button:hover {
+            color: #e27d93;
+            transform: scale(1.15);
+        }
+
+        .like-button.active {
+            color: #e27d93;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.12); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        /* Responsive Mobile Styles */
+        @media (max-width: 480px) {
+            .card-container {
+                padding: 35px 22px;
+                width: 92%;
+            }
+
+            .paragraph {
+                font-size: 1.15rem;
+                line-height: 1.75;
+                margin-bottom: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-glow"></div>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="card-container">
+        <div class="heart-icon">♥</div>
+        
+        <p class="paragraph">
+            There's something painful about loving someone when you already know you may not have a future together. You know it might end, but your heart doesn't know how to love them any less.
+        </p>
+
+        <div class="divider"></div>
+
+        <p class="paragraph">
+            So you keep enjoying the little things—their voice, their laugh, the way they look at you, the moments you know you might miss someday.
+        </p>
+
+        <div class="divider"></div>
+
+        <p class="paragraph">
+            Maybe that's the hardest kind of love: knowing you may have to let them go, but still wishing you could have just a little more time with them.
+        </p>
+
+        <div class="attribution">@hebreathespoetry_</div>
+
+        <button class="like-button" id="likeBtn" aria-label="Send Love">♥</button>
+    </div>
+
+    <script>
+        // Interactive Canvas Floating Particles / Hearts Background
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let particles = [];
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x || Math.random() * canvas.width;
+                this.y = y || canvas.height + Math.random() * 20;
+                this.size = Math.random() * 3 + 1;
+                this.speedY = Math.random() * 0.7 + 0.2;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.fade = Math.random() * 0.002 + 0.001;
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                this.opacity -= this.fade;
+
+                if (this.opacity <= 0 || this.y < 0) {
+                    this.reset();
+                }
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 10;
+                this.size = Math.random() * 3 + 1;
+                this.speedY = Math.random() * 0.7 + 0.2;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.opacity = Math.random() * 0.4 + 0.2;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(226, 125, 147, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const particleCount = Math.floor(window.innerWidth / 15);
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        // Heart Button Burst Effect
+        const likeBtn = document.getElementById('likeBtn');
+        likeBtn.addEventListener('click', (e) => {
+            likeBtn.classList.toggle('active');
+
+            // Spawn dynamic floating particles on click
+            const rect = likeBtn.getBoundingClientRect();
+            const btnX = rect.left + rect.width / 2;
+            const btnY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 12; i++) {
+                let p = new Particle(btnX + (Math.random() - 0.5) * 20, btnY);
+                p.speedY = Math.random() * 2 + 1;
+                p.speedX = (Math.random() - 0.5) * 2;
+                p.opacity = 0.8;
+                particles.push(p);
+            }
+        });
+    </script>
+</body>
+</html>
