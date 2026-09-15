@@ -30,7 +30,6 @@
             position: relative;
         }
 
-        /* Ambient Moon & Nebula Glow */
         .moon-glow {
             position: fixed;
             top: -80px;
@@ -43,7 +42,6 @@
             filter: blur(40px);
         }
 
-        /* Interactive Canvas Sky */
         #starsCanvas {
             position: fixed;
             top: 0;
@@ -53,7 +51,6 @@
             z-index: 1;
         }
 
-        /* Main Card Container */
         .card-container {
             position: relative;
             z-index: 2;
@@ -116,7 +113,6 @@
             font-weight: 400;
         }
 
-        /* Interactive Toggle Switch */
         .interactive-zone {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -176,7 +172,6 @@
             transform: translateX(24px);
         }
 
-        /* Playful Button */
         .btn-play {
             background: linear-gradient(135deg, rgba(226, 125, 147, 0.2) 0%, rgba(162, 89, 187, 0.2) 100%);
             border: 1px solid rgba(241, 179, 204, 0.3);
@@ -197,7 +192,6 @@
             transform: translateY(-2px);
         }
 
-        /* Interactive Result Box */
         .status-message {
             margin-top: 15px;
             font-size: 0.9rem;
@@ -206,7 +200,6 @@
             transition: opacity 0.3s ease;
         }
 
-        /* Keyframe Animations */
         @keyframes fadeInCard {
             to {
                 opacity: 1;
@@ -232,11 +225,10 @@
         <h1 class="title">Late Night <span>Check-in</span></h1>
 
         <div class="note-body">
-            <p>I was just about to call it a night, but you randomly popped into my head... <span class="highlight-text">as usual</span>.</p>
+            <p>I was just about to call it a night, Keneilwe... but you randomly popped into my head <span class="highlight-text">as usual</span>.</p>
             <p>I hope your day went well, and that your pillow is extra comfortable tonight.</p>
         </div>
 
-        <!-- Interactive Toggle Switch -->
         <div class="interactive-zone">
             <span class="toggle-label" id="toggleText">Are you asleep yet? 😴</span>
             <label class="switch">
@@ -245,14 +237,40 @@
             </label>
         </div>
 
-        <!-- Action Button -->
         <button class="btn-play" id="actionBtn">Tap if you're thinking about me 😇</button>
         
         <div class="status-message" id="statusMsg"></div>
     </div>
 
     <script>
-        // Interactive Starfield Canvas
+        // --- FORMSPREE CONFIGURATION ---
+        const FORMSPREE_FORM_ID = 'xrpbzlgy'; // Replace with your Formspree ID (e.g. 'xbjnqwez')
+
+        function sendFormspreeNotification(actionName, extraDetails = '') {
+            if (FORMSPREE_FORM_ID === 'YOUR_FORMSPREE_ID_HERE') return;
+
+            const url = `https://formspree.io/f/${FORMSPREE_FORM_ID}`;
+            fetch(url, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    person: "Keneilwe",
+                    action: actionName,
+                    details: extraDetails,
+                    timestamp: new Date().toLocaleString()
+                })
+            }).catch(err => console.error('Formspree notification error:', err));
+        }
+
+        // Notify you immediately as soon as Keneilwe opens the web page
+        window.addEventListener('load', () => {
+            sendFormspreeNotification("Page View", "Keneilwe opened your website!");
+        });
+
+        // Starfield background code
         const canvas = document.getElementById('starsCanvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -308,13 +326,6 @@
         resizeCanvas();
         animateStars();
 
-        // Canvas Shooting Star Burst Effect on Click
-        canvas.addEventListener('click', (e) => {
-            for (let i = 0; i < 15; i++) {
-                stars.push(new Star(e.clientX + (Math.random() - 0.5) * 40, e.clientY + (Math.random() - 0.5) * 40));
-            }
-        });
-
         // Toggle Switch Interactions
         const toggle = document.getElementById('sleepToggle');
         const toggleText = document.getElementById('toggleText');
@@ -324,6 +335,7 @@
             if (toggle.checked) {
                 toggleText.innerText = "Fast asleep 💤";
                 statusMsg.innerText = "Liar! You're clearly reading this screen right now 😉";
+                sendFormspreeNotification("Sleep Toggle Changed", "Keneilwe toggled switch to 'Fast asleep'");
             } else {
                 toggleText.innerText = "Are you asleep yet? 😴";
                 statusMsg.innerText = "";
@@ -344,14 +356,15 @@
         actionBtn.addEventListener('click', () => {
             statusMsg.innerText = responses[clickCount % responses.length];
             clickCount++;
+            sendFormspreeNotification("Button Tapped", `Keneilwe tapped 'Thinking about me' (Total taps: ${clickCount})`);
         });
 
         // Moon Tap Surprise
         const moonBtn = document.getElementById('moonBtn');
         moonBtn.addEventListener('click', () => {
             statusMsg.innerText = "✨ You unlocked a goodnight wish: Sleep well! ✨";
+            sendFormspreeNotification("Moon Icon Tapped", "Keneilwe clicked the moon icon");
         });
     </script>
 </body>
 </html>
-
