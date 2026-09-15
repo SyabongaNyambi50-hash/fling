@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Goodnight ✨</title>
+    <title>Late Night Thoughts ✨</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -19,7 +19,7 @@
         }
 
         body {
-            background-color: #0c0e1a;
+            background-color: #0b0d19;
             color: #f3e8ee;
             font-family: 'Outfit', sans-serif;
             min-height: 100vh;
@@ -30,20 +30,20 @@
             position: relative;
         }
 
-        /* Ambient Moon Glow Effect */
+        /* Ambient Moon & Nebula Glow */
         .moon-glow {
             position: fixed;
-            top: -100px;
-            right: -100px;
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(224, 185, 233, 0.18) 0%, rgba(131, 105, 186, 0.05) 50%, transparent 70%);
+            top: -80px;
+            right: -80px;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(224, 185, 233, 0.2) 0%, rgba(131, 105, 186, 0.08) 50%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
             filter: blur(40px);
         }
 
-        /* Starry Canvas */
+        /* Interactive Canvas Sky */
         #starsCanvas {
             position: fixed;
             top: 0;
@@ -51,46 +51,47 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            pointer-events: none;
         }
 
-        /* Main Glassmorphism Card Container */
+        /* Main Card Container */
         .card-container {
             position: relative;
             z-index: 2;
             width: 90%;
-            max-width: 460px;
+            max-width: 440px;
             margin: 30px 15px;
-            padding: 45px 32px;
-            background: rgba(22, 20, 38, 0.7);
+            padding: 40px 28px;
+            background: rgba(20, 18, 36, 0.75);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                        0 0 30px rgba(183, 138, 224, 0.08);
             text-align: center;
             opacity: 0;
             transform: translateY(20px);
-            animation: fadeInCard 1.4s ease-out forwards;
+            animation: fadeInCard 1.2s ease-out forwards;
         }
 
-        /* Animated Moon Icon */
         .moon-icon {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             display: inline-block;
-            margin-bottom: 18px;
-            filter: drop-shadow(0 0 10px rgba(247, 212, 136, 0.4));
-            animation: float 4s ease-in-out infinite;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
 
-        /* Main Greeting Headline */
+        .moon-icon:hover {
+            transform: scale(1.2) rotate(15deg);
+        }
+
         .title {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-weight: 500;
+            font-size: 1.9rem;
+            font-weight: 600;
             color: #ffffff;
-            margin-bottom: 25px;
-            letter-spacing: -0.3px;
+            margin-bottom: 20px;
         }
 
         .title span {
@@ -98,20 +99,16 @@
             font-style: italic;
         }
 
-        /* Flirty Romantic Note Body */
         .note-body {
-            font-size: 1.1rem;
-            line-height: 1.8;
+            font-size: 1.05rem;
+            line-height: 1.75;
             color: #dcd6e2;
             font-weight: 300;
+            margin-bottom: 25px;
         }
 
         .note-body p {
-            margin-bottom: 18px;
-        }
-
-        .note-body p:last-child {
-            margin-bottom: 0;
+            margin-bottom: 14px;
         }
 
         .highlight-text {
@@ -119,51 +116,94 @@
             font-weight: 400;
         }
 
-        /* Subtle Bottom Divider */
-        .divider {
-            width: 30px;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.15);
-            margin: 30px auto 25px auto;
+        /* Interactive Toggle Switch */
+        .interactive-zone {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        /* Subtle Interactive Heart Button */
-        .like-button {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.35);
-            font-size: 1.4rem;
+        .toggle-label {
+            font-size: 0.95rem;
+            color: #cbbcd6;
+            font-weight: 400;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.15);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #a259bb;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Playful Button */
+        .btn-play {
+            background: linear-gradient(135deg, rgba(226, 125, 147, 0.2) 0%, rgba(162, 89, 187, 0.2) 100%);
+            border: 1px solid rgba(241, 179, 204, 0.3);
+            color: #ffccd5;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
+            padding: 12px 24px;
+            border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            outline: none;
+            width: 100%;
         }
 
-        .like-button:hover, .like-button.active {
-            color: #ffb7c5;
-            transform: scale(1.15);
+        .btn-play:hover {
+            background: linear-gradient(135deg, rgba(226, 125, 147, 0.4) 0%, rgba(162, 89, 187, 0.4) 100%);
+            border-color: rgba(241, 179, 204, 0.6);
+            transform: translateY(-2px);
         }
 
-        /* Toast Popup Notification */
-        .toast {
-            position: fixed;
-            bottom: -60px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.95);
-            color: #1a162b;
-            padding: 10px 22px;
-            border-radius: 30px;
+        /* Interactive Result Box */
+        .status-message {
+            margin-top: 15px;
             font-size: 0.9rem;
-            font-weight: 400;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 10;
-            pointer-events: none;
-            white-space: nowrap;
-        }
-
-        .toast.show {
-            bottom: 30px;
+            color: #f1b3cc;
+            min-height: 22px;
+            transition: opacity 0.3s ease;
         }
 
         /* Keyframe Animations */
@@ -174,21 +214,9 @@
             }
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-6px) rotate(3deg); }
-        }
-
-        /* Responsive Tweaks */
         @media (max-width: 480px) {
             .card-container {
-                padding: 38px 22px;
-            }
-            .title {
-                font-size: 1.75rem;
-            }
-            .note-body {
-                font-size: 1.05rem;
+                padding: 35px 20px;
             }
         }
     </style>
@@ -199,28 +227,34 @@
     <canvas id="starsCanvas"></canvas>
 
     <div class="card-container">
-        <div class="moon-icon">🌙</div>
+        <div class="moon-icon" id="moonBtn" title="Click for magic!">🌙</div>
         
-        <h1 class="title">Goodnight, <span>Beautiful</span></h1>
+        <h1 class="title">Late Night <span>Check-in</span></h1>
 
         <div class="note-body">
-            <p>I was just about to go to bed, but you popped into my head... <span class="highlight-text">as you always do</span>.</p>
-            <p>I hope your day was as sweet as you are, and that tonight brings you the softest, most peaceful sleep.</p>
-            <p>Sleep well, close your eyes, and try not to dream about me <em>too</em> much tonight... 😉</p>
+            <p>I was just about to call it a night, but you randomly popped into my head... <span class="highlight-text">as usual</span>.</p>
+            <p>I hope your day went well, and that your pillow is extra comfortable tonight.</p>
         </div>
 
-        <div class="divider"></div>
+        <!-- Interactive Toggle Switch -->
+        <div class="interactive-zone">
+            <span class="toggle-label" id="toggleText">Are you asleep yet? 😴</span>
+            <label class="switch">
+                <input type="checkbox" id="sleepToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
 
-        <button class="like-button" id="likeBtn" aria-label="Send Love">♥</button>
+        <!-- Action Button -->
+        <button class="btn-play" id="actionBtn">Tap if you're thinking about me 😇</button>
+        
+        <div class="status-message" id="statusMsg"></div>
     </div>
 
-    <div class="toast" id="toast">Sweet dreams ✨</div>
-
     <script>
-        // Starry Night Sky Canvas Animation
+        // Interactive Starfield Canvas
         const canvas = document.getElementById('starsCanvas');
         const ctx = canvas.getContext('2d');
-
         let stars = [];
 
         function resizeCanvas() {
@@ -228,16 +262,15 @@
             canvas.height = window.innerHeight;
             initStars();
         }
-
         window.addEventListener('resize', resizeCanvas);
 
         class Star {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.8 + 0.3;
+            constructor(x, y) {
+                this.x = x || Math.random() * canvas.width;
+                this.y = y || Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.3;
                 this.alpha = Math.random();
-                this.speed = Math.random() * 0.015 + 0.005;
+                this.speed = Math.random() * 0.01 + 0.005;
                 this.dir = Math.random() > 0.5 ? 1 : -1;
             }
 
@@ -257,7 +290,7 @@
 
         function initStars() {
             stars = [];
-            const count = Math.floor((canvas.width * canvas.height) / 3000);
+            const count = Math.floor((canvas.width * canvas.height) / 3200);
             for (let i = 0; i < count; i++) {
                 stars.push(new Star());
             }
@@ -275,17 +308,48 @@
         resizeCanvas();
         animateStars();
 
-        // Subtle Heart Tap Interactive Effect
-        const likeBtn = document.getElementById('likeBtn');
-        const toast = document.getElementById('toast');
+        // Canvas Shooting Star Burst Effect on Click
+        canvas.addEventListener('click', (e) => {
+            for (let i = 0; i < 15; i++) {
+                stars.push(new Star(e.clientX + (Math.random() - 0.5) * 40, e.clientY + (Math.random() - 0.5) * 40));
+            }
+        });
 
-        likeBtn.addEventListener('click', () => {
-            likeBtn.classList.toggle('active');
+        // Toggle Switch Interactions
+        const toggle = document.getElementById('sleepToggle');
+        const toggleText = document.getElementById('toggleText');
+        const statusMsg = document.getElementById('statusMsg');
 
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2500);
+        toggle.addEventListener('change', () => {
+            if (toggle.checked) {
+                toggleText.innerText = "Fast asleep 💤";
+                statusMsg.innerText = "Liar! You're clearly reading this screen right now 😉";
+            } else {
+                toggleText.innerText = "Are you asleep yet? 😴";
+                statusMsg.innerText = "";
+            }
+        });
+
+        // Interactive Playful Button
+        const actionBtn = document.getElementById('actionBtn');
+        let clickCount = 0;
+
+        const responses = [
+            "I knew it! Caught you red-handed 😏",
+            "That's what I thought. Sweet dreams! ✨",
+            "Okay okay, now go to sleep for real 🌙",
+            "Still tapping? Goodnight! ❤️"
+        ];
+
+        actionBtn.addEventListener('click', () => {
+            statusMsg.innerText = responses[clickCount % responses.length];
+            clickCount++;
+        });
+
+        // Moon Tap Surprise
+        const moonBtn = document.getElementById('moonBtn');
+        moonBtn.addEventListener('click', () => {
+            statusMsg.innerText = "✨ You unlocked a goodnight wish: Sleep well! ✨";
         });
     </script>
 </body>
