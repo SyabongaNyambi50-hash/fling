@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You</title>
-    <!-- Google Fonts for elegant typography -->
+    <title>Goodnight ❤️</title>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: #0d0b14;
-            color: #e6e1e5;
-            font-family: 'Cormorant Garamond', serif;
+            background-color: #0b0d19;
+            color: #f3e8ee;
+            font-family: 'Outfit', sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -28,22 +30,21 @@
             position: relative;
         }
 
-        /* Ambient glowing background elements */
-        .background-glow {
+        /* Moon Glow Effect */
+        .moon-glow {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80vw;
-            height: 80vh;
-            background: radial-gradient(circle, rgba(147, 86, 115, 0.15) 0%, rgba(35, 23, 42, 0.05) 60%, rgba(0,0,0,0) 100%);
-            z-index: 0;
+            top: -100px;
+            right: -100px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(224, 185, 233, 0.22) 0%, rgba(131, 105, 186, 0.08) 50%, transparent 70%);
+            border-radius: 50%;
             pointer-events: none;
             filter: blur(40px);
         }
 
-        /* Canvas for floating heart particles */
-        #particleCanvas {
+        /* Starry Canvas */
+        #starsCanvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -53,244 +54,336 @@
             pointer-events: none;
         }
 
-        /* Main Card Container */
+        /* Main Glassmorphism Card Container */
         .card-container {
             position: relative;
             z-index: 2;
             width: 90%;
-            max-width: 620px;
-            margin: 40px 20px;
-            padding: 50px 40px;
-            background: rgba(22, 18, 33, 0.65);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
-                        0 0 30px rgba(186, 114, 148, 0.08);
+            max-width: 480px;
+            margin: 30px 15px;
+            padding: 45px 30px;
+            background: rgba(22, 20, 38, 0.72);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                        0 0 30px rgba(183, 138, 224, 0.12);
             text-align: center;
             opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transform: translateY(20px);
+            animation: fadeInCard 1.4s ease-out forwards;
         }
 
-        /* Subtle top heart accent icon */
-        .heart-icon {
-            font-size: 24px;
-            color: #d48b9f;
-            margin-bottom: 25px;
+        /* Animated Moon Icon */
+        .moon-icon {
+            font-size: 2.8rem;
             display: inline-block;
-            animation: pulse 2.5s infinite ease-in-out;
-            opacity: 0.85;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 12px rgba(247, 212, 136, 0.5));
+            animation: float 4s ease-in-out infinite;
         }
 
-        /* Paragraph text styles */
-        .paragraph {
-            font-size: 1.35rem;
-            line-height: 1.85;
-            color: #e6e1e5;
-            font-weight: 300;
-            margin-bottom: 30px;
-            letter-spacing: 0.3px;
+        /* Main Greeting Headline */
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
         }
 
-        .paragraph:last-of-type {
-            margin-bottom: 40px;
-        }
-
-        .paragraph span.highlight {
-            color: #f1b8c4;
+        .title span {
+            color: #f1b3cc;
             font-style: italic;
         }
 
-        /* Divider line */
-        .divider {
-            width: 40px;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.15);
-            margin: 0 auto 35px auto;
+        /* Flirty Romantic Note Body */
+        .note-body {
+            font-size: 1.12rem;
+            line-height: 1.8;
+            color: #dcd6e2;
+            font-weight: 300;
+            margin-bottom: 30px;
         }
 
-        /* Footer Credits */
-        .attribution {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.35);
-            letter-spacing: 2px;
-            text-transform: uppercase;
+        .note-body p {
+            margin-bottom: 18px;
         }
 
-        /* Interactive Like Heart Button */
-        .like-button {
-            position: relative;
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 1.5rem;
+        .highlight-text {
+            color: #ffb7c5;
+            font-weight: 400;
+        }
+
+        /* Secret Tap Reveal Box */
+        .secret-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed rgba(241, 179, 204, 0.4);
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin: 25px 0 30px;
             cursor: pointer;
-            margin-top: 15px;
-            transition: color 0.3s ease, transform 0.2s ease;
-            outline: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            user-select: none;
         }
 
-        .like-button:hover {
-            color: #e27d93;
-            transform: scale(1.15);
+        .secret-box:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(241, 179, 204, 0.8);
+            transform: translateY(-2px);
         }
 
-        .like-button.active {
-            color: #e27d93;
+        .secret-hint {
+            font-size: 0.92rem;
+            color: #c0b8cc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
+        .secret-content {
+            display: none;
+            font-family: 'Caveat', cursive;
+            font-size: 1.65rem;
+            color: #ffccd5;
+            line-height: 1.4;
+            animation: popIn 0.5s ease-out forwards;
+        }
+
+        /* Interactive Dream Button */
+        .action-btn {
+            background: linear-gradient(135deg, #e27d93 0%, #a259bb 100%);
+            border: none;
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 15px 32px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(226, 125, 147, 0.35);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(226, 125, 147, 0.5);
+        }
+
+        .action-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Toast Popup Notification */
+        .toast {
+            position: fixed;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            color: #1a162b;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 10;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            bottom: 30px;
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeInCard {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.12); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.8; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(4deg); }
         }
 
-        /* Responsive Mobile Styles */
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Tweaks */
         @media (max-width: 480px) {
             .card-container {
-                padding: 35px 22px;
-                width: 92%;
+                padding: 35px 20px;
             }
-
-            .paragraph {
-                font-size: 1.15rem;
-                line-height: 1.75;
-                margin-bottom: 24px;
+            .title {
+                font-size: 1.75rem;
+            }
+            .note-body {
+                font-size: 1.05rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="background-glow"></div>
-    <canvas id="particleCanvas"></canvas>
+    <div class="moon-glow"></div>
+    <canvas id="starsCanvas"></canvas>
 
     <div class="card-container">
-        <div class="heart-icon">♥</div>
+        <div class="moon-icon">🌙</div>
         
-        <p class="paragraph">
-            There's something painful about loving someone when you already know you may not have a future together. You know it might end, but your heart doesn't know how to love them any less.
-        </p>
+        <h1 class="title">Goodnight, <span>Beautiful</span></h1>
 
-        <div class="divider"></div>
+        <div class="note-body">
+            <p>I was just about to go to bed, but you popped into my head... <span class="highlight-text">as you always do</span>.</p>
+            <p>I hope your day was as incredible as you are, and that tonight brings you the softest, most peaceful sleep.</p>
+            <p>Sleep well, close your eyes, and try not to think about me <em>too</em> much tonight... 😉</p>
+        </div>
 
-        <p class="paragraph">
-            So you keep enjoying the little things—their voice, their laugh, the way they look at you, the moments you know you might miss someday.
-        </p>
+        <!-- Tap to Reveal Secret Message -->
+        <div class="secret-box" id="secretBox">
+            <div class="secret-hint" id="secretHint">
+                ✨ <span>Tap to reveal a bedtime secret</span> ✨
+            </div>
+            <div class="secret-content" id="secretContent">
+                "I'll be looking out for you in my dreams tonight... save a spot for me? ❤️"
+            </div>
+        </div>
 
-        <div class="divider"></div>
-
-        <p class="paragraph">
-            Maybe that's the hardest kind of love: knowing you may have to let them go, but still wishing you could have just a little more time with them.
-        </p>
-
-        <div class="attribution">@hebreathespoetry_</div>
-
-        <button class="like-button" id="likeBtn" aria-label="Send Love">♥</button>
+        <!-- Interactive Nighty Night Button -->
+        <button class="action-btn" id="dreamBtn">Send a Goodnight Kiss 💋</button>
     </div>
 
+    <div class="toast" id="toast">Kiss sent! Sweet dreams tonight ✨</div>
+
     <script>
-        // Interactive Canvas Floating Particles / Hearts Background
-        const canvas = document.getElementById('particleCanvas');
+        // Starry Night Sky Canvas Animation
+        const canvas = document.getElementById('starsCanvas');
         const ctx = canvas.getContext('2d');
 
-        let particles = [];
-        
+        let stars = [];
+
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            initStars();
         }
 
         window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
 
-        class Particle {
-            constructor(x, y) {
-                this.x = x || Math.random() * canvas.width;
-                this.y = y || canvas.height + Math.random() * 20;
-                this.size = Math.random() * 3 + 1;
-                this.speedY = Math.random() * 0.7 + 0.2;
-                this.speedX = (Math.random() - 0.5) * 0.4;
-                this.opacity = Math.random() * 0.5 + 0.2;
-                this.fade = Math.random() * 0.002 + 0.001;
+        class Star {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.8 + 0.3;
+                this.alpha = Math.random();
+                this.speed = Math.random() * 0.015 + 0.005;
+                this.dir = Math.random() > 0.5 ? 1 : -1;
             }
 
             update() {
-                this.y -= this.speedY;
-                this.x += this.speedX;
-                this.opacity -= this.fade;
-
-                if (this.opacity <= 0 || this.y < 0) {
-                    this.reset();
-                }
-            }
-
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = canvas.height + 10;
-                this.size = Math.random() * 3 + 1;
-                this.speedY = Math.random() * 0.7 + 0.2;
-                this.speedX = (Math.random() - 0.5) * 0.4;
-                this.opacity = Math.random() * 0.4 + 0.2;
+                this.alpha += this.speed * this.dir;
+                if (this.alpha >= 0.95) this.dir = -1;
+                if (this.alpha <= 0.1) this.dir = 1;
             }
 
             draw() {
-                ctx.fillStyle = `rgba(226, 125, 147, ${this.opacity})`;
+                ctx.fillStyle = `rgba(255, 230, 245, ${this.alpha})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
-        function initParticles() {
-            particles = [];
-            const particleCount = Math.floor(window.innerWidth / 15);
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+        function initStars() {
+            stars = [];
+            const count = Math.floor((canvas.width * canvas.height) / 3000);
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
             }
         }
 
-        function animateParticles() {
+        function animateStars() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(particle => {
-                particle.update();
-                particle.draw();
+            stars.forEach(star => {
+                star.update();
+                star.draw();
             });
-            requestAnimationFrame(animateParticles);
+            requestAnimationFrame(animateStars);
         }
 
-        initParticles();
-        animateParticles();
+        resizeCanvas();
+        animateStars();
 
-        // Heart Button Burst Effect
-        const likeBtn = document.getElementById('likeBtn');
-        likeBtn.addEventListener('click', (e) => {
-            likeBtn.classList.toggle('active');
+        // Secret Note Toggle
+        const secretBox = document.getElementById('secretBox');
+        const secretHint = document.getElementById('secretHint');
+        const secretContent = document.getElementById('secretContent');
 
-            // Spawn dynamic floating particles on click
-            const rect = likeBtn.getBoundingClientRect();
-            const btnX = rect.left + rect.width / 2;
-            const btnY = rect.top + rect.height / 2;
+        secretBox.addEventListener('click', () => {
+            secretHint.style.display = 'none';
+            secretContent.style.display = 'block';
+            secretBox.style.borderColor = 'rgba(241, 179, 204, 0.8)';
+            secretBox.style.background = 'rgba(255, 255, 255, 0.08)';
+        });
 
-            for (let i = 0; i < 12; i++) {
-                let p = new Particle(btnX + (Math.random() - 0.5) * 20, btnY);
-                p.speedY = Math.random() * 2 + 1;
-                p.speedX = (Math.random() - 0.5) * 2;
-                p.opacity = 0.8;
-                particles.push(p);
+        // Interactive Kiss Button & Toast Trigger
+        const dreamBtn = document.getElementById('dreamBtn');
+        const toast = document.getElementById('toast');
+
+        dreamBtn.addEventListener('click', (e) => {
+            // Show toast message
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+
+            // Floating hearts animation from button position
+            const rect = dreamBtn.getBoundingClientRect();
+            for (let i = 0; i < 8; i++) {
+                createFloatingHeart(rect.left + rect.width / 2, rect.top);
             }
         });
+
+        function createFloatingHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.innerHTML = '✨❤️';
+            heart.style.position = 'fixed';
+            heart.style.left = `${x + (Math.random() - 0.5) * 40}px`;
+            heart.style.top = `${y}px`;
+            heart.style.fontSize = `${Math.random() * 12 + 16}px`;
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '100';
+            heart.style.transition = 'all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            heart.style.opacity = '1';
+
+            document.body.appendChild(heart);
+
+            requestAnimationFrame(() => {
+                heart.style.transform = `translate(${(Math.random() - 0.5) * 100}px, -${Math.random() * 100 + 100}px) scale(1.3)`;
+                heart.style.opacity = '0';
+            });
+
+            setTimeout(() => {
+                heart.remove();
+            }, 1500);
+        }
     </script>
 </body>
 </html>
